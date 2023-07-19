@@ -1,4 +1,8 @@
-# REsource Advertisement and Reservation Protocol (REAR)
+![REAR logo](https://raw.githubusercontent.com/topix-hackademy/Rear/main/images/logo.svg)
 
-The REAR (REsource Advertisement and Reservation Protocol) protocol aims at providing secure data exchange of resources and capabilities between different cloud providers.
-It can be used to advertise resources (e.g., virtual machines and their characteristics in terms of CPU, RAM), capabilities (e.g., Kubernetes clusters) and (in future) services (e.g., a database as a server) to any third party, enabling potential customers to know what is available in other clusters, and possibly (automatically) establish the technical steps that enables the customer to connect and consume the resources/services agreed in the negotiation phase.
+The **REAR (REsource Advertisement and Reservation) protocol** enables different actors such as cloud providers and customers to **advertise**, **reserve** (and then **consume**) _resources_ (e.g., virtual machines and their characteristics in terms of CPU, RAM; a Kubernetes cluster, etc.), and _services_ (e.g., a database as a service).
+A dedicated onthology enables also the specification of _capabilities_ (e.g., the availability of GPU hardware in a Kubernetes clusters), in order to better characterize offered resource/services, while being easily extensible and future-proof.
+
+REAR is being defined with a fully open approach, which facilitates the participation of actors that are outside the FLUIDOS community.
+Current specifications are available at [https://github.com/topix-hackademy/Rear/](https://github.com/topix-hackademy/Rear/).
+
