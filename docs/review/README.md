@@ -4,18 +4,18 @@ This section introduces the state of the art for the REAR protocol, analyzing bo
 
 ## Commercial solutions
 
-In this section, we explore how existing companies tackle the problem of resource acquisition workflows, hence showing which solutions are adopted in real use cases.
+This section presents how existing companies tackle the problem of resource acquisition workflows, hence showing which solutions are adopted in real use cases.
 This can be used to gain insights into how, different companies such as Booking.com, manage the process of acquiring resources effectively and efficiently. Through these real-world scenarios, we will uncover the underlying workflows and understand how different platforms and frameworks facilitate the resource acquisition process.
 
 ### Booking.com Connectivity APIs
 
 The Booking.com Connectivity API [1] enables to send and retrieve data for properties (e.g., hotel rooms, appartments, etc.) listed on Booking.com, enebling actions such as managing room availability, reservations, prices, and more.
 In more details, it offers several specialized functions, divided in the following categories:
- - Content: Create properties, rooms, rates, and policies, and link this information together for the Booking.com website.
- - Rates and Availability: Load inventory counts, rates, and price availability restrictions (for specific room-rate combinations), per date and/or date range combination.
- - Reservations: Retrieve reservations, modifications, and cancellations made on Booking.com.
- - Promotions: Create special promotions for certain date ranges and booker types.
- - Reporting: Report credit card problems, changes to reservations after check-in, and no-shows.
+ - Content: create properties, rooms, rates, and policies, and link this information together for the Booking.com website.
+ - Rates and Availability: load inventory counts, rates, and price availability restrictions (for specific room-rate combinations), per date and/or date range combination.
+ - Reservations: retrieve reservations, modifications, and cancellations made on Booking.com.
+ - Promotions: create special promotions for certain date ranges and booker types.
+ - Reporting: report credit card problems, changes to reservations after check-in, and no-shows.
 
 In addition to the specialized APIs, there are also a set of supporting APIs for retrieving general Booking.com system information, such as accepted currency codes and room names.
 
@@ -62,7 +62,7 @@ It is possible to use the different APIs to define the workflow for searching an
 TODO --> Francesco
 (add pictures, and a brief comment to understand how the shown workflows are made)
 
-## Research efforts
+## Research solutions
 
 Reservation protocols are an essential communication mechanism in many areas, which ensure fair and efficient resource allocation in shared environments. These protocols are commonly used in distributed systems, networking, and multi-user applications to prevent conflicts and coordinate access to critical resources.
 
@@ -84,9 +84,9 @@ TODO --> Stefano
 
 [1] Booking.com Connectivity APIs, https://connect.booking.com/user_guide/site/en-US/user_guide.html
 
-[2]Ticketmaster developer docs, https://developer.ticketmaster.com/
+[2] Ticketmaster developer docs, https://developer.ticketmaster.com/
 
-[3]	Zhang, Lixia, et al. "RSVP: A new resource reservation protocol." IEEE network 7.5 (1993): 8-18.
+[3] Zhang, Lixia, et al. "RSVP: A new resource reservation protocol." IEEE network 7.5 (1993): 8-18.
 
 [4] Talukdar, Anup Kumar, B. R. Badrinath, and Arup Acharya. "MRSVP: A resource reservation protocol for an integrated services network with mobile hosts." Wireless Networks 7 (2001): 5-19.
 
