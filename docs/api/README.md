@@ -255,13 +255,59 @@ The implementation of what to return as a response is left to the user (by defau
         }
 
 ## Optional messages
+The file format depends on the type of implementation. For now, the proposed implementation is with WebSocket, so messages are defined in XML (with the possibility of defining them in other formats such as JSON, etc.). As new technologies could be used in the future, other message formats may be introduced.
 
 ### Refresh
 
-**TBD**
+```xml
+<RefreshMessage>
+    <Flavour>
+        <!-- Details of the Flavour object that has been refreshed -->
+        <FlavourID>string</FlavourID>
+        <ProviderID>string</ProviderID>
+        <FlavourType>string</FlavourType>
+        <!-- Other Flavour fields like Characteristics, Policy, Owner, Price, etc. -->
+    </Flavour>
+    <ModificationDetails>
+        <!-- Details of the changes made to the Flavour -->
+        <FieldModified>string</FieldModified>
+        <OldValue>string</OldValue>
+        <NewValue>string</NewValue>
+        <!-- It is possibile to add other fields if needed -->
+    </ModificationDetails>
+</RefreshMessage>
+```
+
+**XML Structure:**
+
+- `<RefreshMessage>` is the root element of the "refresh" message.
+  - `<Flavour>` contains the details of the "Flavour" object that has been refreshed, with fields like FlavourID, ProviderID, FlavourType, and others.
+  - `<ModificationDetails>` contains the details of the changes made to the Flavour, including the modified fields, the old values, and the new values. It is possibile to add additional fields to this section if necessary.
 
 ### Withdraw
 
-**TBD**
+```xml
+<WithdrawMessage>
+    <Flavour>
+        <!-- Details of the Flavour object that is no longer available -->
+        <FlavourID>string</FlavourID>
+        <ProviderID>string</ProviderID>
+        <FlavourType>string</FlavourType>
+        <!-- Other Flavour fields like Characteristics, Policy, Owner, Price, etc. -->
+    </Flavour>
+    <Reason>
+        <!-- Reason for the withdrawal of the Flavour offer -->
+        <Message>string</Message>
+        <!-- It is possibile to add other fields for more detailed reasons if needed -->
+    </Reason>
+</WithdrawMessage>
+```
+
+**XML Structure:**
+
+- `<WithdrawMessage>` is the root element of the "Withdraw" message.
+  - `<Flavour>` contains the details of the "Flavour" object that is no longer available for purchase, with fields like FlavourID, ProviderID, FlavourType, and others.
+  - `<Reason>` provides the reason for the withdrawal of the Flavour offer, typically in the form of a message. It is possibile to add additional fields for more detailed reasons if needed.
+
 			
 
