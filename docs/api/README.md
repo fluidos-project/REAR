@@ -1,27 +1,32 @@
 # REAR API
 
-This chapter details all the REAR messages, the purpose of then and the message body. Specifically, we can distinguish the messages in required and optional:
- * Required (Figure 1 details an example of possible interaction between client and provider using the required messages)
-   * **List flavors**, sent by the client to probe the available flavors offered by a given provider
-   * **Reserve flavor**, sent by the client to perform a reservation on a specific flavor
-   * **Purchase flavor**, sent by the client to complete the purchase of an offered flavor
- * Optional
+This section details all the REAR messages, their purpose and the message body.
+Specifically, we can distinguish the messages among _required_ and _optional_:
+ * **Required** (Figure 1 details an example of possible interaction between client and provider using the required messages):
+   * **List flavors**, sent by the customer to probe the available flavors offered by a given provider.
+   * **Reserve flavor**, sent by the customer to inform the provider about its willingness to reserve a specific flavor.
+   * **Purchase flavor**, sent by the customer to complete the purchase of an offered flavor.
+ * **Optional**:
    * **Refresh**, sent by the provider to refresh a particular flavor. By sending a refresh message, the provider helps maintain the availability of flavors and allows the consumer to effectively manage and allocate resources based on the updated expiration time.
-   * **Withdrawal**, sent by the provider to the consumer to notify that a specific flavor is no longer available. This message serves as a notification mechanism to inform the consumer that the requested flavor is no longer available.
+   * **Withdraw**, sent by the provider to the consumer to notify that a specific flavor is no longer available. This message serves as a notification mechanism to inform the consumer that the requested flavor is no longer available.
+
+TODO Francesco: the PURCHASE message is not present in the other document.
+
+With respect to optional messages, the file format depends on the type of implementation. For now, the proposed implementation is with WebSocket, so messages are defined in XML (with the possibility of defining them in other formats such as JSON, etc.). As new technologies could be used in the future, other message formats may be introduced.
+
+TODO Francesco: not clear what it is the 'file format' mentioned above.
 
 Note that the sequence of messages between the client and the provider is fixed, as well as the order. This is because each step requires a set of information returned from the previous step(s).
 
 Moreover, there is a huge difference in the communication pattern between required and optional messages. Indeed, required messages follow a client/server approach, i.e., with the client always initiating the communication, whereas the optional messages are sent asynchronously by the server towards the clients. Such design choice greatly improves the expressiveness of the protocol, but it calls for different architectural style for the communication (e.g., REST, Websocket, …), as the different types of messages have different requirements. Appendix A details the communication patterns that are REAR-compatible. 
 
-## Required messages
-This section details the required messages in the REAR protocol for resource advertisement reservation and
+## List Flavours
+TODO Francesco: align the name of the messages. If the message is called LIST_FLAVORS, we have to use this name everywhere (the title of this section is instead 'List Flavours'). Please make a pass and align this across all the document.
 
-### List Flavours
-
-##### Request body
+#### Request body
 None
 
-##### Response body
+#### Response body
       Items: [		
         Flavour: {	
                   # FlavourID is the ID of the Flavour
@@ -129,9 +134,9 @@ None
             WorkerID string 
         }	
 
-### List Flavors + Selector
+## List Flavors + Selector
 
-##### Request body
+#### Request body
         Selector: {	
             # FlavourType specifies the type of Flavour.
             FlavourType string 
@@ -167,7 +172,7 @@ None
             LessThanEph int 
         }
 
-##### Response body
+#### Response body
         Flavour: {	
           # FlavourID is the ID of the Flavour
           FlavourID string
@@ -194,9 +199,9 @@ None
           OptionalFields OptionalFields
         }
 
-### Reserve flavor	
+## Reserve flavor	
 
-##### Request body
+#### Request body
         Reservation: {	
             # FlavourID specifies the ID of the Flavour to be reserved
             FlavourID string
@@ -205,7 +210,7 @@ None
             Buyer NodeIdentity
         }
 
-##### Response body
+#### Response body
         Transaction: {	
             # TransactionID is the ID of the Transaction linked to the Reservation
             TransactionID string
@@ -220,9 +225,9 @@ None
             StartTime string 
         }
 
-### Purchase flavor
+## Purchase flavor
 
-##### Request body
+#### Request body
         Purchase: {	
           # TransactionID is a unique identifier for the transaction.
           TransactionID string
@@ -234,7 +239,7 @@ None
           BuyerID string
         }
 
-##### Response body
+#### Response body
 
       <empty> Status: 200 OK
 
@@ -254,10 +259,8 @@ The implementation of what to return as a response is left to the user (by defau
           …
         }
 
-## Optional messages
-The file format depends on the type of implementation. For now, the proposed implementation is with WebSocket, so messages are defined in XML (with the possibility of defining them in other formats such as JSON, etc.). As new technologies could be used in the future, other message formats may be introduced.
 
-### Refresh
+## Refresh
 
 ```xml
 <RefreshMessage>
@@ -284,7 +287,7 @@ The file format depends on the type of implementation. For now, the proposed imp
   - `<Flavour>` contains the details of the "Flavour" object that has been refreshed, with fields like FlavourID, ProviderID, FlavourType, and others.
   - `<ModificationDetails>` contains the details of the changes made to the Flavour, including the modified fields, the old values, and the new values. It is possibile to add additional fields to this section if necessary.
 
-### Withdraw
+## Withdraw
 
 ```xml
 <WithdrawMessage>
