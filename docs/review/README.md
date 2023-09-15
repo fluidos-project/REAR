@@ -19,6 +19,8 @@ In more details, it offers several specialized functions, divided in the followi
 
 In addition to the specialized APIs, there are also a set of supporting APIs for retrieving general Booking.com system information, such as accepted currency codes and room names.
 
+  <summary>More info</summary>
+
 #### Reservations APIs
 
 A reservation represents the booking of one or more room nights at a given property. Each reservation is a unique booking created by a guest using the Booking.com channels. Reservations API keeps you updated on your bookings by sending a sequence of messages, also known as _reservation messages_.
@@ -26,6 +28,9 @@ Those messages are classified as new booking _confirmation_, _modification_ to a
 To process reservations, Booking.com provides two sets of endpoints using the following two specifications:
  - OTA XML specifications (`OTA_HotelResNotif` and `OTA_HotelResModifyNotif`): a complete and fault-tolerant reservations processing solution following the specification from the OpenTravel Alliance (OTA). This solution is used to retrieve and acknowledge processing the reservations.
  - B.XML specifications (`/reservations`): a simple and lightweight solution to retrieve reservations following Booking.com’s XML specifications. This solution can be used to retrieve the property reservations. Acknowledging that you successfully processed the reservation is currently not supported with this solution.
+
+</details>
+
 
 #### Example workflows
 TODO --> Francesco
@@ -43,6 +48,8 @@ The ticket acquisition workflow on Ticketmaster follows several key steps to ens
  - Checkout Process: customers proceed to the checkout page, where they review their ticket selection, enter their payment and billing information, and complete the transaction. Ticketmaster supports multiple payment methods, including credit cards, digital wallets, and other secure payment options.
  - Order Confirmation: once the purchase is completed, customers receive an order confirmation that includes details such as the event name, date, time, seating information, and a unique order ID. This confirmation serves as proof of purchase and is often sent via email or can be accessed through the customer’s Ticketmaster account.
 
+<details>
+    <summary>More info</summary>
 
 #### Partner APIs
 
@@ -57,6 +64,8 @@ It is possible to use the different APIs to define the workflow for searching an
  - `PUT /partners/v1/events/{event_id}/...`: add a shipping option to the event. Note: some API users will be pre-configured for certain shipping options and may not need to perform this operation.
  - `PUT /partners/v1/events/{event_id}/cart/payment`: add customer and billing information to the order.
  - `PUT /partners/v1/events/{event_id}/cart?apikey={apikey}`: finalize the purchase and commit the transaction.
+
+</details>
 
 #### Example workflows
 TODO --> Francesco
@@ -75,10 +84,10 @@ In our perspective, RSVP and similar solutions target only network parameters, f
 
 Authors in [7] present the Service Negotiation and Acquisition Protocol (SNAP) as a means to enable communication and negotiation between different entities in a distributed system, such as clients and servers. The protocol aims to establish agreements on the expected quality of service (QoS) that clients require and that servers can provide. In the attempt to extend the flexibility of the SLA negotiation mechanism, [9] proposes a bilateral protocol for SLA negotiation using the alternate offers mechanism wherein a party is able to respond to an offer by modifying some of its terms to generate a counter offer. Finally, authors in [12] also describe a brokering architecture that is able to make advance resource reservations and create SLAs using the WS-Agreement standard [10], based on the Contract Net protocol for negotiating SLAs [11]. 
 
-Recently, also telco Operators in the 5G era have a significant opportunity to monetize the capabilities of their networks. This paradigm change led to additional requirements for the Edge infrastructure [13], and the to the definition of a suitable protocol to allow seamless application deployment across different Telco providers [14]. 
 
-TODO --> Stefano 
-(expand GSMA)
+Recently, also telco Operators in the 5G era have a significant opportunity to monetize the capabilities of their networks. This paradigm change led to additional requirements for the Edge infrastructure [13], and the to the definition of a suitable protocol to allow seamless application deployment across different Telco providers [14]. Specifically, this interface enables also the _federation_ between Operator Platforms, _sharing_ of edge nodes, and _access_ to Platform capabilities while customers are roaming. The above technical capabilities are leveraged to provide the same software services associated to the customer also when it is connected to a foreign operator, thanks to the capability to deploy containerized application in the visited Operator Platform.
+Although promising, the current proposal (i) does not include a discovery mechanism to allow the members of the federation to share the price of computing resources or services, (ii) it does not support highly dynamic environments in which the roaming occurs with unforeseen operators (a previously established agreement must be already in place before the roaming), and (iii) is not able to guarantee the property of generality when describing the offered resources/services, but focuses only on containerized applications. 
+
 
 ## References 
 

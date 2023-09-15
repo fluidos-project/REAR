@@ -1,14 +1,19 @@
 ![Alt text](./images/logo.svg)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 ============
-The **REsource Advertisement and Reservation (REAR) protocol** aims at providing secure data exchange of resources and capabilities between different cloud providers. It can be used to advertise resources (e.g., virtual machines and their characteristics in terms of CPU, RAM), capabilities (e.g., Kubernetes clusters) and (in future) services (e.g., a database as a server) to any third party, enabling potential customers to know what is available in other clusters, and possibly (automatically) establish the technical steps that enables the customer to connect and consume the resources/services agreed in the negotiation phase.
 
-There are two main types of entity involved, which are **providers** and **customers**:
+The **REAR (REsource Advertisement and Reservation) protocol** enables different actors such as cloud providers and customers to **advertise**, **reserve** (and then **consume**) **resources** (e.g., virtual machines and their characteristics in terms of CPU, RAM; a Kubernetes cluster, etc.), and **services** (e.g., a database as a service).
+A dedicated onthology supports also **capabilities** (e.g., the availability of GPU hardware in a Kubernetes clusters), in order to better characterize offered resource/services, while being easily extensible and future-proof.
+
+Two main actors are involved in REAR, namely **providers** and **customers**:
   * **Providers** avertise their resources and services in a standardized format.
   * **Customers**  explore and find resources according to their specific criteria.
 
+REAR enables potential customers to know what is available in the provider clusters, hence enabling a true, dynamic market.
+In addition, it aims at automating (and hiding) the technical steps that enable the customer to connect and consume the resources/services agreed in the negotiation phase, such as setting up a peering with [Liqo](https://liqo.io).
+
 Overall, REAR seamlessly integrates with established resource management systems and platforms.
-This protocol accommodates diverse **resource types** and allows for **future expansions**.
+
 
 ### REAR key characteristics
 
