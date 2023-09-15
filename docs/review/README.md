@@ -85,8 +85,6 @@ Authors in [7] present the Service Negotiation and Acquisition Protocol (SNAP) a
 
 Recently, also telco Operators in the 5G era have a significant opportunity to monetize the capabilities of their networks. This paradigm change led to additional requirements for the Edge infrastructure [13], and the to the definition of a suitable protocol to allow seamless application deployment across different Telco providers [14]. Specifically, this interface enables, among others, the federation between Operator Platforms, sharing of edge nodes, and access to Platform capabilities while roaming to deploy contaierized application in a visited Operator Platform. Altough promising, the current proposal (i) does not include a discovery mechanism to allow the members of the federation to share information on the price of computing resources or services, and (ii) is not able to guarantee the propertry of generality when describing the offered resources/services, but focusing only on containerized applications. 
 
-TODO --> Stefano 
-(expand GSMA)
 
 ## References 
 
