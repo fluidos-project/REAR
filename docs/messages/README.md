@@ -1,4 +1,6 @@
 # REAR Workflow and Messages
+
+## Typical REAR workflow
 **REAR** defines a set of messages that facilitate the client/provider interaction for the purchase of available computing resources or services. At its core, REAR has been designed with a focus on generality (i.e., able to be general enough to describe a huge variety of computing and/or service instances). Figure 1 depicts a possible interaction between a customer and a provider using the REAR protocol.
 This section describes the main interaction enabled by the REAR protocol, whereas the details of the different APIs will be provided [here](./docs/api/README.md).
 
@@ -8,6 +10,18 @@ This section describes the main interaction enabled by the REAR protocol, wherea
  
 ## REAR FLAVORS
 TODO Francesco: add the definition of a FLAVOR.
+
+## REAR messages: Required vs. Optional
+The sequence of messages between the client and the provider is fixed, as well as the order. This is because each step requires a set of information returned from the previous step(s).
+
+TODO Francesco: utilizzare la stessa terminologia dappertutto. Molte volte usi 'client' al posto di 'customer'; fai un controllo sui vari files e accertati che sia tutto coerente.
+
+With respect to _required_ and _optional_ messages, there is a huge difference in their communication pattern.
+In fact, required messages follow a client/server approach, i.e., the client always initiates the communication and the server provides the required answer.
+Instead, optional messages are sent asynchronously by the server towards the clients. Such design choice greatly improves the expressiveness of the protocol, but it calls for different architectural style for the communication (e.g., REST, Websocket, ...), as the different types of messages have different requirements. 
+
+TODO Francesco - La frase seguente e' un refuso.
+Appendix A details the communication patterns that are REAR-compatible. 
 
 ## LIST_FLAVORS: get the list of available flavors
 
