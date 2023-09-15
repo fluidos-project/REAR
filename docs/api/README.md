@@ -16,10 +16,6 @@ With respect to optional messages, the file format depends on the type of implem
 
 TODO Francesco: not clear what it is the 'file format' mentioned above.
 
-Note that the sequence of messages between the client and the provider is fixed, as well as the order. This is because each step requires a set of information returned from the previous step(s).
-
-Moreover, there is a huge difference in the communication pattern between required and optional messages. Indeed, required messages follow a client/server approach, i.e., with the client always initiating the communication, whereas the optional messages are sent asynchronously by the server towards the clients. Such design choice greatly improves the expressiveness of the protocol, but it calls for different architectural style for the communication (e.g., REST, Websocket, …), as the different types of messages have different requirements. Appendix A details the communication patterns that are REAR-compatible. 
-
 ## List Flavours
 TODO Francesco: align the name of the messages. If the message is called LIST_FLAVORS, we have to use this name everywhere (the title of this section is instead 'List Flavours'). Please make a pass and align this across all the document.
 
