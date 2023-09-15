@@ -1,4 +1,4 @@
-# REAR MESSAGES
+# REAR Workflow and Messages
 **REAR** defines a set of messages that facilitate the client/provider interaction for the purchase of available computing resources or services. At its core, REAR has been designed with a focus on generality (i.e., able to be general enough to describe a huge variety of computing and/or service instances). Figure 1 depicts a possible interaction between a customer and a provider using the REAR protocol.
 This section describes the main interaction enabled by the REAR protocol, whereas the details of the different APIs will be provided [here](./docs/api/README.md).
 
@@ -6,10 +6,12 @@ This section describes the main interaction enabled by the REAR protocol, wherea
 
 *Figure 1. Example of interaction between client and provider using the required messages*
  
+## REAR FLAVORS
+TODO Francesco: add the definition of a FLAVOR.
 
-## GET THE LIST OF AVAILABLE FLAVORS
+## LIST_FLAVORS: get the list of available flavors
 
-The **list flavor** message provides the client with the list of available flavors offered by a given producer. Using a standardized selector, a client can request the list of available flavors matching specific needs, like a given amount of computing resources (e.g., CPU, RAM, storage), the flavor type (e.g., VM, Kubernetes cluster, DB service), and additional policies (e.g., maximum price). 
+The **LIST_FLAVORS** message provides the client with the list of available flavors offered by a given producer. Using a standardized selector, a client can request the list of available flavors matching specific needs, like a given amount of computing resources (e.g., CPU, RAM, storage), the flavor type (e.g., VM, Kubernetes cluster, DB service), and additional policies (e.g., maximum price). 
 
 If properly formatted, the list flavor message returns the list of available flavors offered by a given producer (if any). Specifically, each item in the list will have the following key information:
  * **Flavor ID**: Each offer should be identified by a unique Flavor ID instead of just the name. 
@@ -31,8 +33,8 @@ The interaction is always initiated by the client and can be summarized as follo
  * The provider returns the list of matching flavors.
    * If the provider does not have available flavors, or does not have flavors matching the specified selector, an empty list will be returned.
 
-## RESERVE A FLAVOR
-The **reserve flavor** message is sent by the client to the provider to notify the intention of reserving an offered flavor. It is the first step that requires to handle the concurrency in client requests, as different clients may be interested in the same flavor. Note that this message only notifies the provider the intention of purchasing a flavor, the request must then be finalized using the confirm purchase message (see following subsection).
+## RESERVE_FLAVOR: reserve a flavor
+The **RESERVE_FLAVOR** message is sent by the client to the provider to notify the intention of reserving an offered flavor. It is the first step that requires to handle the concurrency in client requests, as different clients may be interested in the same flavor. Note that this message only notifies the provider the intention of purchasing a flavor, the request must then be finalized using the confirm purchase message (see following subsection).
 
 Specifically, the client/provider interaction can be summarized in the following:
  * After the client has collected the list of available flavors offered by the provider, it notifies the intention of reserving a specific flavor by sending an HTTP POST and including the ID of the flavor to be reserved.
@@ -50,16 +52,16 @@ Figure 2 extends the non-concurrent interaction, including concurrent access to 
 
 *Figure 2. Concurrent flavor access from two different client.*
  
-## CONFIRM RESERVATION 
+## CONFIRM_RESERVATION 
 The confirm reservation message concludes the resource advertisement and reservation process. It is sent by the provider to the client, to notify the finalization of the purchase .
 The interaction can be summarized in the following steps:
 
 **TBD**
 
-## SUBSCRIBE TO CHANGES 
+## REFRESH and WITHDRAW: handle possible changes in the flavor list 
 REAR defines a set of optional messages that extend the expressiveness of the protocol, and we summarize as subscribe to changes. Specifically, we include two optional interactions:
- * Refresh, sent by the provider to refresh a particular flavor. By sending a refresh message, the provider helps maintain the availability of flavors and allows the consumer to effectively manage and allocate resources based on the updated expiration time.
- * Withdraw, sent by the provider to the consumer to notify that a specific flavor is no longer available. This message serves as a notification mechanism to inform the consumer that the requested flavor is no longer available.
+ * REFRESH, sent by the provider to refresh a particular flavor. By sending a refresh message, the provider helps maintain the availability of flavors and allows the consumer to effectively manage and allocate resources based on the updated expiration time.
+ * WITHDRAW, sent by the provider to the consumer to notify that a specific flavor is no longer available. This message serves as a notification mechanism to inform the consumer that the requested flavor is no longer available.
 
 Figure 3 details the REAR interaction using the combination of both optional and required messages. Specifically, the interaction can be summarized as follows:
  * The client sends a request to get the list of available flavors matching a predefined selector
