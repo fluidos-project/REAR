@@ -23,8 +23,8 @@ Overall, REAR seamlessly integrates with established resource management systems
 
 The **REAR** documentation has been organized as follows:
 
-  * [Here](./docs/review/README.md) we detail the state of the art for other resource allocation protocols both from an industry and research perspective.
-  * [Here](./docs/messages/README.md) we detail the different type of messages we envision in the REAR protocol 
-  * [Here](./docs/api/README.md) we delve into the details of the REAR api.
+  * [Here](./docs/review/README.md) we present the state of the art of resource allocation protocols both from an industry and research perspective.
+  * [Here](./docs/messages/README.md) we present the main workflow of the REAR protocol, and we detail its messages. 
+  * [Here](./docs/api/README.md) we delve into the details of the REAR API.
 
 
