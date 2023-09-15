@@ -19,6 +19,8 @@ TODO Francesco: not clear what it is the 'file format' mentioned above.
 ## List Flavours
 TODO Francesco: align the name of the messages. If the message is called LIST_FLAVORS, we have to use this name everywhere (the title of this section is instead 'List Flavours'). Please make a pass and align this across all the document.
 
+TODO Francesco: utilizziamo sia la parola FLAVOR che la parola FLAVOUR. DObbiamo deciderne una ed usare solo quella. Lascio a te il compito di passare i documenti e uniformare il tutto.
+
 #### Request body
 None
 
