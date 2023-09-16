@@ -1,5 +1,12 @@
 # REAR API
 
+TODO Francesco
+Inizierei questo documento con:
+This section presents the details of REAR messages, such as the API and the exchanged data structures.
+
+TODO Francesco
+Invece questa parte (fino al prossimo TODO) la sposterei all'inizio del documento su workflow e messaggi.
+
 This section details all the REAR messages, their purpose and the message body.
 Specifically, we can distinguish the messages among _required_ and _optional_:
  * **Required** (Figure 1 details an example of possible interaction between client and provider using the required messages):
