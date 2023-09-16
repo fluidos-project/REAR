@@ -17,14 +17,14 @@ Overall, REAR seamlessly integrates with established resource management systems
 
 ### REAR key characteristics
 
-**REAR** has been designed with a focus on generality. This is because it allows to perform resource exchange for (possibly) any type of resources and services, ranging from traditional VMs, Kubernetes clusters, services (e.g., DBs), and sensors and actuators (e.g., humidity and temperature sensors).
+**REAR** has been designed to be easily extended, in particular with respect to the support of arbitrary resources. In fact, it enables exchanging information about any type of resources and services, ranging from traditional VMs, Kubernetes clusters, services (e.g., DBs), and sensors and actuators (e.g., humidity and temperature sensors).
 
 ## Documentation structure
 
 The **REAR** documentation has been organized as follows:
 
-  * [Here](./docs/review/README.md) we present the state of the art of resource allocation protocols both from an industry and research perspective.
-  * [Here](./docs/messages/README.md) we present the main workflow of the REAR protocol, and we detail its messages. 
-  * [Here](./docs/api/README.md) we delve into the details of the REAR API.
+  * [State of the art](./docs/review/README.md)
+  * [Overall worklow and main messages](./docs/messages/README.md) 
+  * [REAR API and detailed message syntax](./docs/api/README.md)
 
 
