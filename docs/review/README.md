@@ -11,11 +11,12 @@ This can be used to gain insights into how, different companies such as Booking.
 
 The Booking.com Connectivity API [1] enables to send and retrieve data for properties (e.g., hotel rooms, appartments, etc.) listed on Booking.com, enebling actions such as managing room availability, reservations, prices, and more.
 In more details, it offers several specialized functions, divided in the following categories:
- - Content: create properties, rooms, rates, and policies, and link this information together for the Booking.com website.
- - Rates and Availability: load inventory counts, rates, and price availability restrictions (for specific room-rate combinations), per date and/or date range combination.
- - Reservations: retrieve reservations, modifications, and cancellations made on Booking.com.
- - Promotions: create special promotions for certain date ranges and booker types.
- - Reporting: report credit card problems, changes to reservations after check-in, and no-shows.
+
+- Content: create properties, rooms, rates, and policies, and link this information together for the Booking.com website.
+- Rates and Availability: load inventory counts, rates, and price availability restrictions (for specific room-rate combinations), per date and/or date range combination.
+- Reservations: retrieve reservations, modifications, and cancellations made on Booking.com.
+- Promotions: create special promotions for certain date ranges and booker types.
+- Reporting: report credit card problems, changes to reservations after check-in, and no-shows.
 
 In addition to the specialized APIs, there are also a set of supporting APIs for retrieving general Booking.com system information, such as accepted currency codes and room names.
 
@@ -27,26 +28,35 @@ In addition to the specialized APIs, there are also a set of supporting APIs for
 A reservation represents the booking of one or more room nights at a given property. Each reservation is a unique booking created by a guest using the Booking.com channels. Reservations API keeps you updated on your bookings by sending a sequence of messages, also known as _reservation messages_.
 Those messages are classified as new booking _confirmation_, _modification_ to an existing booking, or _cancellation_. Regardless of the category, the reservations API provides the data in a common format. A reservation may include several units of rooms, apartments or villas. Each reservation or booking is specific to exactly one property.
 To process reservations, Booking.com provides two sets of endpoints using the following two specifications:
- - OTA XML specifications (`OTA_HotelResNotif` and `OTA_HotelResModifyNotif`): a complete and fault-tolerant reservations processing solution following the specification from the OpenTravel Alliance (OTA). This solution is used to retrieve and acknowledge processing the reservations.
- - B.XML specifications (`/reservations`): a simple and lightweight solution to retrieve reservations following Booking.com’s XML specifications. This solution can be used to retrieve the property reservations. Acknowledging that you successfully processed the reservation is currently not supported with this solution.
+
+- OTA XML specifications (`OTA_HotelResNotif` and `OTA_HotelResModifyNotif`): a complete and fault-tolerant reservations processing solution following the specification from the OpenTravel Alliance (OTA). This solution is used to retrieve and acknowledge processing the reservations.
+- B.XML specifications (`/reservations`): a simple and lightweight solution to retrieve reservations following Booking.com’s XML specifications. This solution can be used to retrieve the property reservations. Acknowledging that you successfully processed the reservation is currently not supported with this solution.
 
 </details>
 
 #### Example workflows
-TODO --> Francesco
-(add pictures, and a brief comment to understand how the shown workflows are made)
 
+![Alt text](../../images/bookings.svg)
+
+_Figure 1. Booking.com workflow._
+
+Each reservation is a unique booking created by a guest using the Booking.com channels.
+
+The messages are classified as new booking confirmation, modification to an existing booking, or cancellation.
+
+Internally. Bookings.com uses a **Message Dispatcher**: a system that consolidates reservation messages specific to providers in a dedicated queue and keeps track of whether the reservations were retrieved by the providers in a stipulated time.
 
 ### Ticketmaster
 
 Ticketmaster [2] is a globally recognized ticketing platform that revolutionized the way people purchase tickets for various events, including concerts, sports games, and theathral shows. With its user-friendly interface and extensive event catalog, Ticketmaster has become a go-to destination for millions of customers worldwide.
 
 The ticket acquisition workflow on Ticketmaster follows several key steps to ensure a seamless and efficient ticket purchasing process for customers:
- - Event Discovery: customers begin by browsing Ticketmaster’s website or mobile app to explore upcoming events in their area. They can search by event type, artist, venue, or date to find the desired event.
- - Ticket Selection: once customers find the event they are interested in, they can select the specific tickets they want to purchase. Ticketmaster offers various ticket options, including different seating sections, price ranges, and quantities.
- - Seat Allocation: after selecting tickets, the system allocates seats based on the customer’s preferences and availability. Ticketmaster’s seat selection algorithm ensures that seats are assigned in the most optimal way to accommodate the customer’s group and provide an enjoyable experience.
- - Checkout Process: customers proceed to the checkout page, where they review their ticket selection, enter their payment and billing information, and complete the transaction. Ticketmaster supports multiple payment methods, including credit cards, digital wallets, and other secure payment options.
- - Order Confirmation: once the purchase is completed, customers receive an order confirmation that includes details such as the event name, date, time, seating information, and a unique order ID. This confirmation serves as proof of purchase and is often sent via email or can be accessed through the customer’s Ticketmaster account.
+
+- Event Discovery: customers begin by browsing Ticketmaster’s website or mobile app to explore upcoming events in their area. They can search by event type, artist, venue, or date to find the desired event.
+- Ticket Selection: once customers find the event they are interested in, they can select the specific tickets they want to purchase. Ticketmaster offers various ticket options, including different seating sections, price ranges, and quantities.
+- Seat Allocation: after selecting tickets, the system allocates seats based on the customer’s preferences and availability. Ticketmaster’s seat selection algorithm ensures that seats are assigned in the most optimal way to accommodate the customer’s group and provide an enjoyable experience.
+- Checkout Process: customers proceed to the checkout page, where they review their ticket selection, enter their payment and billing information, and complete the transaction. Ticketmaster supports multiple payment methods, including credit cards, digital wallets, and other secure payment options.
+- Order Confirmation: once the purchase is completed, customers receive an order confirmation that includes details such as the event name, date, time, seating information, and a unique order ID. This confirmation serves as proof of purchase and is often sent via email or can be accessed through the customer’s Ticketmaster account.
 
 <details>
     <summary>More info</summary>
@@ -58,18 +68,29 @@ The Ticketmaster Partner API allows customers to reserve, purchase, and retrieve
 If a user abandons a page/tab after a ticket reserve has been made, client applications should do their best to detect this and issue a `DELETE /cart` request to free up allocated resources on the ticketing server. This should also be done if the client app does no longer want to wait through a long, continuing polling process. This is necessary since ticket reserve requests that result in polling will eventually complete asynchronously and take up resources even if clients do not consume the next polling url.
 
 It is possible to use the different APIs to define the workflow for searching and purchasing a ticket:
- - `GET /discovery/v2/events`: find events and filter your search by location, date, availability, and much more.
- - `POST /partners/v1/events/{event_id}/cart?apikey={apikey}`: reserves the specified tickets. For integrations requiring captcha, send the captcha solution token in the json body. A hold time will be returned in the cart response that will indicate, in seconds, how long the cart is available for. This value may increase if the user moves through the cart process.
- - `GET /partners/v1/events/{event_id}/...`: get shipping options available for this event. Note: some API users will be pre-configured for certain shipping options and may not need to perform this. Specifying the “region” query parameter will return options available for users in the selected country. Using the value ‘ALL’ will return all options.
- - `PUT /partners/v1/events/{event_id}/...`: add a shipping option to the event. Note: some API users will be pre-configured for certain shipping options and may not need to perform this operation.
- - `PUT /partners/v1/events/{event_id}/cart/payment`: add customer and billing information to the order.
- - `PUT /partners/v1/events/{event_id}/cart?apikey={apikey}`: finalize the purchase and commit the transaction.
+
+- `GET /discovery/v2/events`: find events and filter your search by location, date, availability, and much more.
+- `POST /partners/v1/events/{event_id}/cart?apikey={apikey}`: reserves the specified tickets. For integrations requiring captcha, send the captcha solution token in the json body. A hold time will be returned in the cart response that will indicate, in seconds, how long the cart is available for. This value may increase if the user moves through the cart process.
+- `GET /partners/v1/events/{event_id}/...`: get shipping options available for this event. Note: some API users will be pre-configured for certain shipping options and may not need to perform this. Specifying the “region” query parameter will return options available for users in the selected country. Using the value ‘ALL’ will return all options.
+- `PUT /partners/v1/events/{event_id}/...`: add a shipping option to the event. Note: some API users will be pre-configured for certain shipping options and may not need to perform this operation.
+- `PUT /partners/v1/events/{event_id}/cart/payment`: add customer and billing information to the order.
+- `PUT /partners/v1/events/{event_id}/cart?apikey={apikey}`: finalize the purchase and commit the transaction.
 
 </details>
 
 #### Example workflows
-TODO --> Francesco
-(add pictures, and a brief comment to understand how the shown workflows are made)
+
+![Alt text](../../images/ticketmaster.svg)
+
+_Figure 2. Ticketmaster.com workflow._
+
+The client initiates the process by identifying available events during the initial two workflow interactions.
+
+Once they have chosen an event, they transition into the reservation phase.
+
+If tickets are accessible, Ticketmaster grants the client a specified hold time to complete the reservation.
+
+Upon successful completion, Ticketmaster sends a purchase verification to the client.
 
 ## Research solutions
 
@@ -82,13 +103,12 @@ As an extension of RSVP, RSVP-TE (Resource Reservation Protocol - Traffic Engine
 
 In our perspective, RSVP and similar solutions target only network parameters, failing to include the multi-dimensionality of the computing resources (e.g., reserve CPU, RAM, etc.).
 
-Authors in [7] present the Service Negotiation and Acquisition Protocol (SNAP) as a means to enable communication and negotiation between different entities in a distributed system, such as clients and servers. The protocol aims to establish agreements on the expected quality of service (QoS) that clients require and that servers can provide. In the attempt to extend the flexibility of the SLA negotiation mechanism, [9] proposes a bilateral protocol for SLA negotiation using the alternate offers mechanism wherein a party is able to respond to an offer by modifying some of its terms to generate a counter offer. Finally, authors in [12] also describe a brokering architecture that is able to make advance resource reservations and create SLAs using the WS-Agreement standard [10], based on the Contract Net protocol for negotiating SLAs [11]. 
+Authors in [7] present the Service Negotiation and Acquisition Protocol (SNAP) as a means to enable communication and negotiation between different entities in a distributed system, such as clients and servers. The protocol aims to establish agreements on the expected quality of service (QoS) that clients require and that servers can provide. In the attempt to extend the flexibility of the SLA negotiation mechanism, [9] proposes a bilateral protocol for SLA negotiation using the alternate offers mechanism wherein a party is able to respond to an offer by modifying some of its terms to generate a counter offer. Finally, authors in [12] also describe a brokering architecture that is able to make advance resource reservations and create SLAs using the WS-Agreement standard [10], based on the Contract Net protocol for negotiating SLAs [11].
 
 Recently, also telco Operators in the 5G era have a significant opportunity to monetize the capabilities of their networks. This paradigm change led to additional requirements for the Edge infrastructure [13], and the to the definition of a suitable protocol to allow seamless application deployment across different Telco providers [14]. Specifically, this interface enables also the _federation_ between Operator Platforms, _sharing_ of edge nodes, and _access_ to Platform capabilities while customers are roaming. The above technical capabilities are leveraged to provide the same software services associated to the customer also when it is connected to a foreign operator, thanks to the capability to deploy containerized application in the visited Operator Platform.
-Although promising, the current proposal (i) does not include a discovery mechanism to allow the members of the federation to share the price of computing resources or services, (ii) it does not support highly dynamic environments in which the roaming occurs with unforeseen operators (a previously established agreement must be already in place before the roaming), and (iii) is not able to guarantee the property of generality when describing the offered resources/services, but focuses only on containerized applications. 
+Although promising, the current proposal (i) does not include a discovery mechanism to allow the members of the federation to share the price of computing resources or services, (ii) it does not support highly dynamic environments in which the roaming occurs with unforeseen operators (a previously established agreement must be already in place before the roaming), and (iii) is not able to guarantee the property of generality when describing the offered resources/services, but focuses only on containerized applications.
 
-
-## References 
+## References
 
 [1] Booking.com Connectivity APIs, https://connect.booking.com/user_guide/site/en-US/user_guide.html
 
@@ -117,4 +137,3 @@ Although promising, the current proposal (i) does not include a discovery mechan
 [13] GSMA Operator Platform Telco Edge Requirements 2022 https://www.gsma.com/futurenetworks/resources/gsma-operator-platform-telco-edge-requirements-2022/
 
 [14] GSMA Operator Platform Group – East-Westbound Interface APIs https://www.gsma.com/futurenetworks/resources/east-westbound-interface-apis/
-
