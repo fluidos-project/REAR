@@ -1,0 +1,35 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "title": "NodeIdentity",
+    "properties": {
+        "Domain": {
+            "type": "string",
+            "description": "Domain of the node."
+        },
+        "NodeID": {
+            "type": "string",
+            "description": "ID of the node."
+        },
+        "IP": {
+            "type": "string",
+            "description": "IP of the node."
+        },
+        "AdditionalInformation": {
+            "type": "object",
+            "description": "Additional information about the node.",
+            "properties": {
+                "LiqoID": {
+                    "type": "string",
+                    "description": "Liqo ID of the node."
+                }
+            }
+        }
+    },
+    "required": [
+        "Domain",
+        "NodeID",
+        "IP"
+    ],
+    "additionalProperties": false
+}
