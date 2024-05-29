@@ -26,3 +26,9 @@ The **REAR** documentation has been organized as follows:
 - [State of the art](./docs/review/README.md)
 - [Overall worklow and main messages](./docs/messages/README.md)
 - [REAR API and detailed message syntax](./docs/api/README.md)
+
+## Additional materials
+
+- In this repository, you will find [PowerPoint slides](./docs/materials/slides/) documenting the details of the protocol.
+
+- A paper titled 'Building the Continuum with REAR' has been submitted to and accepted by IEEE NETSOFT 2024. You can find it [here](./docs/materials/paper/).
