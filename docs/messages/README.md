@@ -1,9 +1,9 @@
 # REAR MESSAGES
 
 **REAR** defines a set of messages that facilitate the client/provider interaction for the purchase of available computing resources or services. At its core, REAR has been designed with a focus on generality (i.e., able to be general enough to describe a huge variety of computing and/or service instances). Figure 1 depicts a possible interaction between a customer and a provider using the REAR protocol.
-This section describes the main interaction enabled by the REAR protocol, whereas the details of the different APIs will be provided [here](./docs/api/README.md).
+This section describes the main interaction enabled by the REAR protocol, whereas the details of the different APIs will be provided [here](./docs/api/README.md), and the data models for the Flavor definition is available [here](https://github.com/fluidos-project/REAR-data-models).
 
-![](/images/main_workflow.svg)
+![](/images/REAR_workflow.png)
 
 _Figure 1. Example of interaction between client and provider using the required messages_
 
@@ -19,66 +19,30 @@ The protocol comprises various messages, which can be classified as either _requ
 
 ## GET THE LIST OF AVAILABLE FLAVORS
 
-The **LIST_FLAVOR** message provides the client with the list of available flavors offered by a given producer. Using a standardized selector, a client can request the list of available flavors matching specific needs, like a given amount of computing resources (e.g., CPU, RAM, storage), the flavor type (e.g., VM, Kubernetes cluster, DB service), and additional policies (e.g., maximum price).
+The **LIST_FLAVOR** message is sent by the consumer to probe the available flavors offered by a given provider.
+Since different FlavorTypes can be offered by a single provider, the consumer can filter out possible resources by specifying the desired characteristics in the **LIST_FLAVOR** message, using the FlavorType data model described [here](https://github.com/fluidos-project/REAR-data-models). 
+For example, if the consumer wants to purchase VMs, it can retrieve the list of possible VMs offered by a provider by specifying characteristics of the VM FlavorType, such as 2 CPUs and 4GB of RAM. 
+The provider will then reply with a list of VMs that match the requirements, if any.
 
-If properly formatted, the list flavor message returns the list of available flavors offered by a given producer (if any). Specifically, each item in the list will have the following key information:
-
-- **Flavor ID**: Each offer should be identified by a unique Flavor ID instead of just the name.
-- **Provider ID**: Associate the Flavor with the corresponding Provider ID.
-- **Type**: Specify the type of the Flavor (e.g., VM/K8s Cluster/etc.).
-- **Characteristics**: Specify the capacities and resources provided by the Flavor (CPU, RAM, etc.).
-- **Policy**: Specify if the Flavor is aggregatable /partitionable
-- **Owner**: represents the entity that owns the Flavor (FQDN/unknown). It can correspond to the Provider ID of the Flavor.
-- **Price or Fee**: If applicable, specify the price or fee associated with the Flavor.
-- **Expiration Time**: It represents the duration after which the Flavor needs to be refreshed. If the Flavor is not refreshed within the Expiration Time, it becomes invalid or expires. The Expiration Time can be calculated by adding a specific timestamp to the current time, indicating the number of hours or days until expiration.
-- **Optional Fields**: Other details such as limitations, promotions, availability etc., can be included as optional information.
-
-Note that if the producer does not have available Flavors, or does not have Flavors matching the provided selector, it may return an empty list.
-
-The interaction is always initiated by the client and can be summarized as follows:
-
-- The client wants to retrieve the list of available favors offered by a provider.
-  - The client creates the selector using one of the standardized ones based on the requirements.
-- After the message is ready, an HTTP GET is sent to the provider to get the list of filtered flavors.
-- The provider returns the list of matching flavors.
-  - If the provider does not have available flavors, or does not have flavors matching the specified selector, an empty list will be returned.
+The **LIST_FLAVOR** message thus contains the requested FlavorType with the desired characteristics and some form of identification for the consumer (TODO: detail here the vPresentation to authenticate the consumer). 
 
 ## RESERVE A FLAVOR
 
-The **RESERVE_FLAVOR** message is sent by the client to the provider to notify the intention of reserving an offered flavor. It is the first step that requires to handle the concurrency in client requests, as different clients may be interested in the same flavor. Note that this message only notifies the provider the intention of purchasing a flavor, the request must then be finalized using the confirm purchase message (see following subsection).
+Once the consumer knows the Flavors and their IDs, the Flavor reservation process is performed through the **RESERVE_FLAVOR** message, sent by the consumer to inform the provider about its willingness to reserve a specific flavor.
+Specifically, the consumer/provider interaction can be summarized as follows.
+After the client has collected the list of available Flavors offered by the provider, it notifies the intention of reserving a specific flavor by sending the **RESERVE_FLAVOR** message, specifying the ID of the Flavor to be reserved.
 
-Specifically, the client/provider interaction can be summarized in the following:
-
-- After the client has collected the list of available flavors offered by the provider, it notifies the intention of reserving a specific flavor by sending an HTTP POST and including the ID of the flavor to be reserved.
-- Once received by the provider, two separate actions are performed:
-  - The provider checks if the flavor is still available (there might be some delay between the list flavor message and the subsequent reserve flavor request, thus the flavor may no longer be available). In case the Flavor is still available the provider replies with a summary of the reservation process , otherwise a 404 error message is sent to the client.
-  - The provider instantiates a timer to limit the reservation time for that specific flavor. This allows reserved flavors to be released in case either the client becomes completely irresponsive, or the subsequent purchase process exceeds a predefined threshold.
-
-Figure 2 extends the non-concurrent interaction, including concurrent access to shared resources (i.e., flavors), from multiple clients. Specifically, the interaction can be summarized with the following steps:
-
-- Customer 1 and 2 both request the list of available flavor based on predefined selectors, and they both notify the intention to reserve a specific flavor (i.e., flavor 1234 in this case).
-- The first customer to send the reserve flavor message, triggers on the provider side the acquisition of the lock associated with the shared flavor.
-- The first customer can thus continue with the purchase of the selected flavor, whereas the second will not receive any further messages until the first customer releases the shared lock, either finalizing the purchase, or exceeding the predefined timeout.
-- In case the first customer finalized the purchase, the second customer will acquire the shared lock, and receive a 404-error message, notifying that the favor is no longer available. In case the first customer didn’t finalize the purchase, the second customer can proceed with the normal interaction described in the previous use case.
-
-![](/images/concurrent_access.svg)
-
-_Figure 2. Concurrent flavor access from two different client._
+To verify the consumer identity, the **RESERVE_FLAVOR** message must also include an authentication token that will be then validated by a Trusted third-party authentication and authorization service (TODO: detail here the vPresentation to authenticate the consumer).
+Once received, the provider checks if the flavor is still available (there might be some delay between the **LIST_FLAVOR** message and the subsequent reservation). and if so it replies with a summary of the reservation process including the _TransactionID_ and the _Time To Purchase (TTP)_, i.e., the time by which the Flavor must be purchased. 
+This allows reserved Flavors to be released in case either the consumer becomes unreachable, or the subsequent purchase process exceeds a predefined threshold.
+If the Flavor is not available a 404 error message is sent to the consumer.
 
 ## PURCHASE A FLAVOR
 
-The **PURCHASE_FLAVOR** message is transmitted by the client following receipt of the provider's response during the reservation phase, which includes a transaction ID.
-
-In this context, the client must confirm the purchase within the timeframe defined as the **Time To Purchase (TTP)**, as outlined in _Figure 2_.
-
-This interaction is facilitated by the transaction ID issued during the reservation process.
-
-## CONFIRM RESERVATION
-
-The confirm reservation message concludes the resource advertisement and reservation process. It is sent by the provider to the client, to notify the finalization of the purchase .
-The interaction can be summarized in the following steps:
-
-**TBD**
+The **PURCHASE_FLAVOR** message is sent by the consumer upon receipt of the provider's response during the reservation phase to complete the purchase of an offered flavor.
+Specifically, the **PURCHASE_FLAVOR** message notifies the intention of the consumer to finalize the purchase of the resource.
+To do so, the consumer sends the **PURCHASE_FLAVOR** message including the _TransactionID_ (obtained with the **RESERVE_FLAVOR**) and the identification token to the provider (TODO: detail here the vPresentation to authenticate the consumer).
+If authorized, the consumer will then be prompted to a payment service (either external or managed by the provider) and, if successful, a copy of the _Contract_ is returned to the consumer, detailing the purchase and the information required to access the purchased resource (e.g., IP address, API endpoint).
 
 ## SUBSCRIBE TO CHANGES
 
