@@ -24,7 +24,7 @@ Overall, REAR seamlessly integrates with established resource management systems
 The **REAR** documentation has been organized as follows:
 
 - [State of the art](./docs/review/README.md)
-- [Overall worklow and main messages](./docs/messages/README.md)
+- [Overall workflow and main messages](./docs/messages/README.md)
 - [REAR API and detailed message syntax](./docs/api/README.md)
 
 ## Additional materials
