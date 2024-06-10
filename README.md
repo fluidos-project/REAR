@@ -31,4 +31,4 @@ The **REAR** documentation has been organized as follows:
 
 - In this repository, you will find [PowerPoint slides](./docs/materials/slides/) documenting the details of the protocol.
 
-- A paper titled 'Building the Continuum with REAR' has been submitted to and accepted by IEEE NETSOFT 2024. You can find it [here](./docs/materials/paper/).
+- A paper titled 'Building the Continuum with REAR' has been submitted to and accepted by IEEE NETSOFT 2024. You can find it [here](https://hdl.handle.net/11583/2989397).
