@@ -32,6 +32,8 @@ paths:
       summary: List all available flavors
       description: Returns a list of all available flavors.
       operationId: listFlavors
+      tags: 
+        - Discovery
       security:
         - BearerAuth: []
       responses:
@@ -43,7 +45,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.json'
+                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.schema.json'
         '401':
           description: Unauthorized
         '403':
@@ -54,91 +56,8 @@ paths:
       summary: List all available flavors for Kubernetes
       description: Returns a list of all available flavors for Kubernetes.
       operationId: listFlavorsK8s
-      security: 
-        -  BearerAuth: []
-      parameters:
-        - in: query
-          name: filter
-          schema:
-            type: object
-            properties:
-              cpu:
-                type: object
-                oneOf:
-                  - properties:
-                      exact:
-                        type: integer
-                  - properties:
-                      range:
-                        type: object
-                        properties:
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-              memory:
-                type: object
-                oneOf:
-                  - properties:
-                      exact:
-                        type: integer
-                  - properties:
-                      range:
-                        type: object
-                        properties:
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-              gpu:
-                type: object
-                oneOf:
-                  - properties:
-                      exact:
-                        type: integer
-                  - properties:
-                      range:
-                        type: object
-                        properties:
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-              storage:
-                type: object
-                oneOf:
-                  - properties:
-                      exact:
-                        type: integer
-                  - properties:
-                      range:
-                        type: object
-                        properties:
-                          min:
-                            type: integer
-                          max:
-                            type: integer
-          description: Filter parameters
-      responses:
-        '200':
-          description: A JSON array of flavors                      
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  type: object
-                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.json'
-        '401':
-          description: Unauthorized
-        '403':
-          description: Forbidden
-
-  /api/v2/flavors/vms:
-    get:
-      summary: List all available flavors for Virtual Machines
-      description: Returns a list of all available flavors for Virtual Machines.
-      operationId: listFlavorsVMs
+      tags: 
+        - Discovery
       security: 
         -  BearerAuth: []
       parameters:
@@ -148,7 +67,11 @@ paths:
             type: object
             properties:
               architecture:
-                type: string
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
               cpu:
                 type: object
                 oneOf:
@@ -215,7 +138,100 @@ paths:
                 type: array
                 items:
                   type: object
-                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.json'
+                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.schema.json'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  /api/v2/flavors/vm:
+    get:
+      summary: List all available flavors for Virtual Machines
+      description: Returns a list of all available flavors for Virtual Machines.
+      operationId: listFlavorsVMs
+      tags: 
+        - Discovery
+      security: 
+        -  BearerAuth: []
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: object
+            properties:
+              architecture:
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
+              cpu:
+                type: object
+                oneOf:
+                  - properties:
+                      exact:
+                        type: integer
+                  - properties:
+                      range:
+                        type: object
+                        properties:
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+              memory:
+                type: object
+                oneOf:
+                  - properties:
+                      exact:
+                        type: integer
+                  - properties:
+                      range:
+                        type: object
+                        properties:
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+              gpu:
+                type: object
+                oneOf:
+                  - properties:
+                      exact:
+                        type: integer
+                  - properties:
+                      range:
+                        type: object
+                        properties:
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+              storage:
+                type: object
+                oneOf:
+                  - properties:
+                      exact:
+                        type: integer
+                  - properties:
+                      range:
+                        type: object
+                        properties:
+                          min:
+                            type: integer
+                          max:
+                            type: integer
+          description: Filter parameters
+      responses:
+        '200':
+          description: A JSON array of flavors                      
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.schema.json'
         '401':
           description: Unauthorized
         '403':
@@ -226,6 +242,8 @@ paths:
       summary: List all available flavors for Sensors
       description: Returns a list of all available flavors of type Sensor.
       operationId: listFlavorsSensors
+      tags: 
+        - Discovery
       security: 
         -  BearerAuth: []
       parameters:
@@ -235,11 +253,23 @@ paths:
             type: object
             properties:
               sensor_type:
-                type: string
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
               sensor_model:
-                type: string
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
               sensor_manufacturer:
-                type: string
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
               sampling_rate:
                 type: object
                 oneOf:
@@ -264,39 +294,77 @@ paths:
                 type: array
                 items:
                   type: object
-                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.json'
+                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.schema.json'
         '401':
           description: Unauthorized
         '403':
           description: Forbidden
 
-  /api/v2/flavors/{flavor_id}/reservation:
+  /api/v2/flavors/service:
+    get:
+      summary: List all available flavors for Software Services
+      description: Returns a list of all available flavors for Software Services.
+      operationId: listFlavorsServices
+      tags: 
+        - Discovery
+      security: 
+        -  BearerAuth: []
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: object
+            properties:
+              category:
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
+              tags:
+                type: object
+                oneOf:
+                  - properties:
+                      match:
+                        type: string
+          description: Filter parameters
+      responses:
+        '200':
+          description: A JSON array of flavors                      
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  $ref: 'https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/flavor.schema.json'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+
+  /api/v2/reservations:
     post:
       summary: Reserve a flavor
       description: Reserves a flavor for a specific time period.
       operationId: reserveFlavor
+      tags: 
+        - Reservation
       security: 
         -  BearerAuth: []
-      parameters:
-        - in: path
-          name: flavor_id
-          required: true
-          schema:
-            type: string
-          description: The ID of the flavor to reserve
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: ../schemas/reservation.schema.json
+              $ref: https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/reservation.schema.json
       responses:
         '200':
           description: The reservation was successful, a transaction is returned
           content:
             application/json:
               schema:
-                $ref: ../schemas/transaction.schema.json
+                $ref: https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/transaction.schema.json
         '401':
           description: Unauthorized
         '403':
@@ -311,6 +379,8 @@ paths:
       summary: Purchase a flavor
       description: Purchases a specific flavor previously reserved associated with a transaction.
       operationId: purchaseFlavor.
+      tags: 
+        - Purchase
       security: 
         -  BearerAuth: []
       parameters:
@@ -320,13 +390,19 @@ paths:
           schema:
             type: string
           description: The ID of the transaction related to a flavor reservation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/purchase-request.schema.json
       responses:
         '200':
           description: The purchase was successful, a transaction is returned
           content:
             application/json:
               schema:
-                $ref: ../schemas/contract.schema.json
+                $ref: https://raw.githubusercontent.com/fluidos-project/REAR-data-models/master/models/schemas/contract.schema.json
         '401':
           description: Unauthorized
         '403':
