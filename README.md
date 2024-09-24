@@ -3,11 +3,11 @@
 ============
 
 The **REAR (REsource Advertisement and Reservation) protocol** enables different actors such as cloud providers and customers to **advertise**, **reserve** (and then **consume**) **resources** (e.g., virtual machines and their characteristics in terms of CPU, RAM; a Kubernetes cluster, etc.), and **services** (e.g., a database as a service).
-A dedicated onthology supports also **capabilities** (e.g., the availability of GPU hardware in a Kubernetes clusters), in order to better characterize offered resource/services, while being easily extensible and future-proof.
+A dedicated ontology supports also **capabilities** (e.g., the availability of GPU hardware in a Kubernetes clusters), in order to better characterize offered resource/services, while being easily extensible and future-proof.
 
 Two main actors are involved in REAR, namely **providers** and **customers**:
 
-- **Providers** avertise their resources and services in a standardized format.
+- **Providers** advertise their resources and services in a standardized format.
 - **Customers** explore and find resources according to their specific criteria.
 
 REAR enables potential customers to know what is available in the provider clusters, hence enabling a true, dynamic market.
